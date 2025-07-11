@@ -1,0 +1,59 @@
+[package]
+name = "sni"
+version = "0.1.0"
+edition = "2021"
+authors = ["Wind Network <team@windnetwork.ai>"]
+license = "MIT OR Apache-2.0"
+description = "Solana Network Indexer - Ultra-fast Solana blockchain indexer"
+
+[[bin]]
+name = "sni"
+path = "src/main.rs"
+
+[dependencies]
+# Tide dependencies (added from local)
+tide-core = { path = "../tide/crates/tide-core" }
+
+# Solana dependencies - match tide workspace versions
+solana-sdk = "2.2.0"
+solana-client = "2.2.0"
+solana-transaction-status = "2.2.0"
+agave-geyser-plugin-interface = "2.2.1"
+
+# Async runtime
+tokio = { version = "1.32", features = ["full"] }
+futures = "0.3.28"
+async-trait = "0.1.74"
+
+# Networking - match tide workspace version
+libp2p = { version = "0.55", features = ["tcp", "gossipsub", "noise", "yamux", "dns"] }
+
+# Performance
+crossbeam-channel = "0.5.12"
+rayon = "1.10.0"
+dashmap = "6.0"
+
+# Data handling
+serde = { version = "1.0.188", features = ["derive"] }
+serde_json = "1.0.107"
+bincode = "1.3.3"
+
+# Storage - downgrade to avoid base64ct issues
+sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "sqlite"] }
+
+# Utilities - match tide workspace versions
+anyhow = "1.0.75"
+thiserror = "1.0.50"
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+uuid = { version = "1.0", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Configuration
+clap = { version = "4.4", features = ["derive"] }
+config = "0.14"
+toml = "0.8"
+
+[patch.crates-io]
+curve25519-dalek = { git = "https://github.com/dalek-cryptography/curve25519-dalek", rev = "8274d5cbb6fc3f38cdc742b4798173895cd2a290" }
+solana-zk-token-sdk = { git = "https://github.com/anza-xyz/agave", branch = "v2.2" }
